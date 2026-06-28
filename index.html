@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SleepGlow Studio — Sprei Bambu Organik, Sejuk Sepanjang Malam</title>
+<meta name="description" content="SleepGlow Studio — sprei premium serat bambu organik. Cooling effect, anti-bakteri, hypoallergenic. Pesan langsung lewat WhatsApp.">
+<meta name="theme-color" content="#0A0A0A">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0A0A0A',
+          paper: '#FAFAF8',
+          mist: '#F1F1EE',
+          smoke: '#8C8C88',
+          char: '#3A3A38',
+        },
+        fontFamily: {
+          display: ['Space Grotesk', 'sans-serif'],
+          sans: ['Inter', 'sans-serif'],
+          mono: ['Space Mono', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #FAFAF8; color: #0A0A0A; }
+  section, header, footer { scroll-margin-top: 84px; }
+
+  /* ---------- Reveal on scroll ---------- */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+  }
+  [data-reveal].is-visible { opacity: 1; transform: none; }
+
+  /* ---------- Hero scanline texture ---------- */
+  .hero-grain::after{
+    content:"";
+    position:absolute; inset:0;
+    background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 3px);
+    mix-blend-mode: overlay;
+    pointer-events:none;
+  }
+  .scan-line{
+    position:absolute; left:0; right:0; top:0; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+    animation: scan 7s linear infinite;
+  }
+  @keyframes scan {
+    0%   { top: 0%;   opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* ---------- Ticker ---------- */
+  .ticker-track{
+    display:flex; width:max-content;
+    animation: ticker 24s linear infinite;
+  }
+  .ticker-track:hover{ animation-play-state: paused; }
+  @keyframes ticker{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
+
+  /* ---------- Thermo signature element ---------- */
+  .thermo-track{
+    position:relative; flex:1; height:10px;
+    background: rgba(255,255,255,0.08);
+    border-radius:999px; overflow:hidden;
+  }
+  .thermo-fill{
+    position:absolute; inset:0; width:0%;
+    border-radius:999px;
+    transition: width 1.5s cubic-bezier(.16,1,.3,1);
+  }
+  .thermo-fill.cotton{ background: linear-gradient(90deg,#6b6b68,#9c9c98); }
+  .thermo-fill.bamboo{
+    background: linear-gradient(90deg,#e9e9e7,#ffffff);
+    box-shadow: 0 0 20px 2px rgba(255,255,255,.55);
+  }
+
+  /* ---------- Form error shake ---------- */
+  .shake{ animation: shake .45s; }
+  @keyframes shake{
+    0%,100%{ transform: translateX(0); }
+    20%{ transform: translateX(-6px); }
+    40%{ transform: translateX(6px); }
+    60%{ transform: translateX(-4px); }
+    80%{ transform: translateX(4px); }
+  }
+
+  /* ---------- Mobile menu ---------- */
+  #mobileMenu{
+    transform: translateY(-100%);
+    transition: transform .5s cubic-bezier(.16,1,.3,1);
+  }
+  #mobileMenu.open{ transform: translateY(0); }
+
+  /* ---------- Reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce){
+    [data-reveal]{ transition:none; opacity:1; transform:none; }
+    .ticker-track, .scan-line{ animation:none; }
+    .thermo-fill{ transition:none; }
+    #mobileMenu{ transition:none; }
+  }
+
+  .focus-ring-light:focus-visible{ outline:none; box-shadow:0 0 0 2px #0A0A0A; }
+  .focus-ring-dark:focus-visible{ outline:none; box-shadow:0 0 0 2px #FFFFFF; }
+</style>
+</head>
+
+<body class="antialiased">
+
+<!-- ============ NAVBAR ============ -->
+<header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+    <a href="#top" class="font-display font-bold text-lg md:text-xl tracking-tight" id="logoText">
+      SLEEPGLOW<span class="font-mono text-[10px] align-top ml-1 opacity-60">STUDIO™</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-10 font-mono text-xs uppercase tracking-widest" id="navLinks">
+      <a href="#fitur" class="hover:opacity-60 transition-opacity">Fitur</a>
+      <a href="#produk" class="hover:opacity-60 transition-opacity">Produk</a>
+      <a href="#pesan" class="hover:opacity-60 transition-opacity">Cara Pesan</a>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <button onclick="chatAdmin()" id="navWaBtn" class="hidden sm:inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest border border-current px-4 py-2.5 rounded-full hover:bg-current/10 transition-colors focus-ring-light">
+        Chat Admin
+      </button>
+      <button id="menuBtn" aria-label="Buka menu" class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus-ring-light rounded-full">
+        <span class="block w-5 h-px bg-current" id="bar1"></span>
+        <span class="block w-5 h-px bg-current" id="bar2"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile fullscreen menu -->
+<div id="mobileMenu" class="fixed inset-0 z-40 bg-ink text-paper flex flex-col items-center justify-center gap-10">
+  <a href="#fitur" class="mobile-link font-display text-3xl">Fitur</a>
+  <a href="#produk" class="mobile-link font-display text-3xl">Produk</a>
+  <a href="#pesan" class="mobile-link font-display text-3xl">Cara Pesan</a>
+  <button onclick="chatAdmin()" class="mt-4 font-mono text-xs uppercase tracking-widest border border-paper px-6 py-3 rounded-full focus-ring-dark">Chat Admin</button>
+</div>
+
+<!-- ============ HERO ============ -->
+<section id="top" class="relative min-h-[100vh] flex flex-col overflow-hidden bg-ink text-paper hero-grain">
+
+  <img
+    src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1920&q=80"
+    onerror="this.style.display='none'"
+    alt="Kamar tidur minimalis futuristik dengan pencahayaan dramatis"
+    class="absolute inset-0 w-full h-full object-cover opacity-50"
+  >
+  <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/30"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-transparent to-ink/40"></div>
+  <div class="scan-line"></div>
+
+  <div class="relative z-10 flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full px-6 md:px-10 pt-28 pb-16">
+
+    <p data-reveal class="font-mono text-xs md:text-sm uppercase tracking-[0.25em] text-paper/70 mb-6">
+      // 100% Serat Bambu Organik
+    </p>
+
+    <h1 data-reveal class="font-display font-bold leading-[0.95] text-[clamp(2.4rem,8vw,5.5rem)] tracking-tight max-w-4xl">
+      Tidur dingin.<br>Kulit tenang.
+    </h1>
+
+    <p data-reveal class="mt-6 text-base md:text-lg text-paper/75 max-w-md leading-relaxed">
+      Sprei premium berbahan serat bambu organik — sejuk sepanjang malam, lembut pada kulit paling sensitif, sejak helai pertama.
+    </p>
+
+    <div data-reveal class="mt-10 flex flex-wrap items-center gap-4">
+      <a href="#pesan" class="inline-flex items-center gap-2 bg-paper text-ink font-mono text-xs uppercase tracking-widest px-7 py-4 rounded-full hover:bg-white transition-colors focus-ring-dark">
+        Pesan Sekarang
+      </a>
+      <a href="#produk" class="inline-flex items-center gap-2 border border-paper/40 font-mono text-xs uppercase tracking-widest px-7 py-4 rounded-full hover:border-paper transition-colors focus-ring-dark">
+        Lihat Varian
+      </a>
+    </div>
+  </div>
+
+  <div class="relative z-10 border-t border-paper/10 px-6 md:px-10 py-5 flex items-center justify-between font-mono text-[10px] md:text-xs uppercase tracking-widest text-paper/50">
+    <span>Cooling Fiber Technology</span>
+    <span class="hidden sm:inline">Scroll untuk eksplorasi ↓</span>
+  </div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="bg-ink text-paper border-t border-paper/10 overflow-hidden py-4">
+  <div class="ticker-track font-mono text-xs md:text-sm uppercase tracking-[0.3em]">
+    <span class="flex items-center gap-10 pr-10">
+      <span>Anti Bakteri</span><span class="opacity-40">/</span>
+      <span>Cooling Effect</span><span class="opacity-40">/</span>
+      <span>Hypoallergenic</span><span class="opacity-40">/</span>
+      <span>Bambu Organik</span><span class="opacity-40">/</span>
+      <span>Anti Bakteri</span><span class="opacity-40">/</span>
+      <span>Cooling Effect</span><span class="opacity-40">/</span>
+      <span>Hypoallergenic</span><span class="opacity-40">/</span>
+      <span>Bambu Organik</span><span class="opacity-40">/</span>
+    </span>
+    <span class="flex items-center gap-10 pr-10">
+      <span>Anti Bakteri</span><span class="opacity-40">/</span>
+      <span>Cooling Effect</span><span class="opacity-40">/</span>
+      <span>Hypoallergenic</span><span class="opacity-40">/</span>
+      <span>Bambu Organik</span><span class="opacity-40">/</span>
+      <span>Anti Bakteri</span><span class="opacity-40">/</span>
+      <span>Cooling Effect</span><span class="opacity-40">/</span>
+      <span>Hypoallergenic</span><span class="opacity-40">/</span>
+      <span>Bambu Organik</span><span class="opacity-40">/</span>
+    </span>
+  </div>
+</div>
+
+<!-- ============ FEATURES ============ -->
+<section id="fitur" class="bg-paper text-ink py-24 md:py-32">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+
+    <div data-reveal class="max-w-xl mb-16">
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-smoke mb-4">// Keunggulan</p>
+      <h2 class="font-display font-semibold text-3xl md:text-5xl tracking-tight leading-tight">
+        Dibangun dari satu serat,<br>bekerja untuk seluruh malam.
+      </h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 border-t border-ink/10">
+      <!-- 1 -->
+      <div data-reveal class="border-b lg:border-r border-ink/10 py-10 pr-6">
+        <svg class="w-8 h-8 mb-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 21c-4-1-7-5-7-10 0-3 2-6 5-7 1 4 1 8 2 11 1-3 1-7 2-11 3 1 5 4 5 7 0 5-3 9-7 10z"/>
+        </svg>
+        <h3 class="font-display font-medium text-lg mb-2">Bambu Organik</h3>
+        <p class="text-sm text-char leading-relaxed">100% serat bambu alami, ditenun halus tanpa bahan kimia keras. Lembut di kulit, ringan di bumi.</p>
+      </div>
+      <!-- 2 -->
+      <div data-reveal class="border-b lg:border-r border-ink/10 py-10 pr-6">
+        <svg class="w-8 h-8 mb-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path stroke-linecap="round" d="M12 2v20M4.5 6.5l15 11M19.5 6.5l-15 11M2 12h20M6.5 4.5l11 15M17.5 4.5l-11 15"/>
+        </svg>
+        <h3 class="font-display font-medium text-lg mb-2">Cooling Effect</h3>
+        <p class="text-sm text-char leading-relaxed">Sirkulasi udara alami menjaga suhu kulit tetap sejuk, bahkan di malam paling gerah.</p>
+      </div>
+      <!-- 3 -->
+      <div data-reveal class="border-b lg:border-r border-ink/10 py-10 pr-6">
+        <svg class="w-8 h-8 mb-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6l7-3z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
+        </svg>
+        <h3 class="font-display font-medium text-lg mb-2">Anti-Bakteri</h3>
+        <p class="text-sm text-char leading-relaxed">Struktur serat bambu menghambat pertumbuhan bakteri secara alami, tanpa coating kimia.</p>
+      </div>
+      <!-- 4 -->
+      <div data-reveal class="border-b py-10">
+        <svg class="w-8 h-8 mb-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 20s-7-4.5-9-9c-1.5-3 .5-7 4-7 2 0 4 1.5 5 3 1-1.5 3-3 5-3 3.5 0 5.5 4 4 7-2 4.5-9 9-9 9z"/>
+        </svg>
+        <h3 class="font-display font-medium text-lg mb-2">Sensitive Skin Friendly</h3>
+        <p class="text-sm text-char leading-relaxed">Hypoallergenic dan minim risiko iritasi — aman untuk kulit paling sensitif sekalipun.</p>
+      </div>
+    </div>
+
+    <!-- Signature element: skin temp monitor -->
+    <div data-reveal id="thermoPanel" class="mt-16 bg-ink text-paper rounded-2xl px-6 md:px-10 py-10 md:py-12">
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-paper/50 mb-8">// Skin Temp Monitor — rata-rata suhu permukaan kulit saat tidur</p>
+
+      <div class="space-y-7">
+        <div class="flex items-center gap-4 md:gap-8">
+          <span class="font-mono text-[11px] md:text-xs uppercase tracking-widest w-32 md:w-44 shrink-0 text-paper/60">Katun Biasa</span>
+          <div class="thermo-track"><div class="thermo-fill cotton" data-target="82"></div></div>
+          <span class="font-display text-lg md:text-xl w-16 text-right"><span class="num" data-end="34">0</span>°C</span>
+        </div>
+        <div class="flex items-center gap-4 md:gap-8">
+          <span class="font-mono text-[11px] md:text-xs uppercase tracking-widest w-32 md:w-44 shrink-0 text-paper/60">SleepGlow Bamboo</span>
+          <div class="thermo-track"><div class="thermo-fill bamboo" data-target="48"></div></div>
+          <span class="font-display text-lg md:text-xl w-16 text-right"><span class="num" data-end="26">0</span>°C</span>
+        </div>
+      </div>
+
+      <p class="mt-8 text-xs text-paper/40 font-mono">*Berdasarkan pengujian internal suhu permukaan kain, suhu ruang 28°C.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PRODUCT SHOWCASE ============ -->
+<section id="produk" class="bg-mist text-ink py-24 md:py-32">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+
+    <div data-reveal class="max-w-xl mb-16">
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-smoke mb-4">// Varian</p>
+      <h2 class="font-display font-semibold text-3xl md:text-5xl tracking-tight leading-tight">
+        Tiga warna, satu standar kesejukan.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Midnight Black -->
+      <div data-reveal class="group bg-paper rounded-2xl overflow-hidden flex flex-col">
+        <div class="relative h-72 overflow-hidden bg-ink">
+          <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80"
+               onerror="this.style.display='none'"
+               alt="Sprei bambu organik warna Midnight Black"
+               class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700">
+          <span class="absolute top-4 left-4 font-mono text-[10px] uppercase tracking-widest bg-ink/70 text-paper px-3 py-1.5 rounded-full">Variant // 01</span>
+        </div>
+        <div class="p-7 flex flex-col flex-1">
+          <h3 class="font-display font-medium text-xl mb-1">Midnight Black</h3>
+          <p class="text-sm text-char mb-4">Fitted sheet, 2 sarung bantal, 1 sarung guling. Tersedia ukuran Single–King.</p>
+          <p class="font-mono text-sm mb-6">Rp 899.000</p>
+          <button onclick="selectProduct('Midnight Black')" class="mt-auto w-full font-mono text-xs uppercase tracking-widest border border-ink py-3.5 rounded-full hover:bg-ink hover:text-paper transition-colors focus-ring-light">
+            Pilih Varian Ini
+          </button>
+        </div>
+      </div>
+
+      <!-- Pure White -->
+      <div data-reveal class="group bg-paper rounded-2xl overflow-hidden flex flex-col">
+        <div class="relative h-72 overflow-hidden bg-ink">
+          <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1200&q=80"
+               onerror="this.style.display='none'"
+               alt="Sprei bambu organik warna Pure White"
+               class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700">
+          <span class="absolute top-4 left-4 font-mono text-[10px] uppercase tracking-widest bg-ink/70 text-paper px-3 py-1.5 rounded-full">Variant // 02</span>
+        </div>
+        <div class="p-7 flex flex-col flex-1">
+          <h3 class="font-display font-medium text-xl mb-1">Pure White</h3>
+          <p class="text-sm text-char mb-4">Fitted sheet, 2 sarung bantal, 1 sarung guling. Tersedia ukuran Single–King.</p>
+          <p class="font-mono text-sm mb-6">Rp 849.000</p>
+          <button onclick="selectProduct('Pure White')" class="mt-auto w-full font-mono text-xs uppercase tracking-widest border border-ink py-3.5 rounded-full hover:bg-ink hover:text-paper transition-colors focus-ring-light">
+            Pilih Varian Ini
+          </button>
+        </div>
+      </div>
+
+      <!-- Cyber Grey -->
+      <div data-reveal class="group bg-paper rounded-2xl overflow-hidden flex flex-col">
+        <div class="relative h-72 overflow-hidden bg-ink">
+          <img src="https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=1200&q=80"
+               onerror="this.style.display='none'"
+               alt="Sprei bambu organik warna Cyber Grey"
+               class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700">
+          <span class="absolute top-4 left-4 font-mono text-[10px] uppercase tracking-widest bg-ink/70 text-paper px-3 py-1.5 rounded-full">Variant // 03</span>
+          <span class="absolute top-4 right-4 font-mono text-[10px] uppercase tracking-widest bg-paper text-ink px-3 py-1.5 rounded-full">Baru</span>
+        </div>
+        <div class="p-7 flex flex-col flex-1">
+          <h3 class="font-display font-medium text-xl mb-1">Cyber Grey</h3>
+          <p class="text-sm text-char mb-4">Fitted sheet, 2 sarung bantal, 1 sarung guling. Tersedia ukuran Single–King.</p>
+          <p class="font-mono text-sm mb-6">Rp 929.000</p>
+          <button onclick="selectProduct('Cyber Grey')" class="mt-auto w-full font-mono text-xs uppercase tracking-widest border border-ink py-3.5 rounded-full hover:bg-ink hover:text-paper transition-colors focus-ring-light">
+            Pilih Varian Ini
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ORDER FORM ============ -->
+<section id="pesan" class="relative bg-ink text-paper py-24 md:py-32 overflow-hidden">
+  <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1920&q=80"
+       onerror="this.style.display='none'"
+       alt="" aria-hidden="true"
+       class="absolute inset-0 w-full h-full object-cover opacity-15">
+  <div class="absolute inset-0 bg-gradient-to-b from-ink via-ink/95 to-ink"></div>
+
+  <div class="relative z-10 max-w-3xl mx-auto px-6 md:px-10">
+    <div data-reveal class="text-center mb-12">
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-paper/50 mb-4">// Cara Pesan</p>
+      <h2 class="font-display font-semibold text-3xl md:text-5xl tracking-tight leading-tight">Isi data, lanjut ke WhatsApp.</h2>
+      <p class="mt-4 text-paper/60 text-sm md:text-base max-w-md mx-auto">Tidak ada keranjang, tidak ada gateway pembayaran rumit. Lengkapi formulir, dan admin kami yang memprosesnya langsung.</p>
+    </div>
+
+    <form data-reveal id="orderForm" class="bg-paper/[0.04] border border-paper/15 rounded-2xl p-6 md:p-10 backdrop-blur-sm" onsubmit="kirimWhatsApp(event)" novalidate>
+
+      <div class="mb-6">
+        <label for="nama" class="block font-mono text-[11px] uppercase tracking-widest text-paper/60 mb-2">Nama Pembeli</label>
+        <input type="text" id="nama" name="nama" placeholder="Nama lengkap kamu"
+          class="w-full bg-transparent border border-paper/20 rounded-xl px-4 py-3.5 text-paper placeholder:text-paper/30 focus-ring-dark focus:border-paper/50 transition-colors">
+      </div>
+
+      <div class="mb-6">
+        <label for="alamat" class="block font-mono text-[11px] uppercase tracking-widest text-paper/60 mb-2">Alamat Lengkap</label>
+        <textarea id="alamat" name="alamat" rows="3" placeholder="Jalan, nomor rumah, kelurahan, kecamatan, kota, kode pos"
+          class="w-full bg-transparent border border-paper/20 rounded-xl px-4 py-3.5 text-paper placeholder:text-paper/30 focus-ring-dark focus:border-paper/50 transition-colors resize-none"></textarea>
+      </div>
+
+      <div class="mb-8">
+        <label for="produk" class="block font-mono text-[11px] uppercase tracking-widest text-paper/60 mb-2">Pilihan Produk</label>
+        <select id="produk" name="produk"
+          class="w-full bg-transparent border border-paper/20 rounded-xl px-4 py-3.5 text-paper focus-ring-dark focus:border-paper/50 transition-colors [&>option]:text-ink">
+          <option value="" class="text-ink">Pilih varian sprei</option>
+          <option value="Midnight Black" class="text-ink">Midnight Black — Rp 899.000</option>
+          <option value="Pure White" class="text-ink">Pure White — Rp 849.000</option>
+          <option value="Cyber Grey" class="text-ink">Cyber Grey — Rp 929.000</option>
+        </select>
+      </div>
+
+      <p id="formError" class="hidden font-mono text-xs text-paper/80 mb-5 -mt-3 border border-paper/30 rounded-lg px-4 py-3">
+        Mohon lengkapi semua data di atas sebelum melanjutkan ke WhatsApp.
+      </p>
+
+      <button type="submit" class="w-full bg-paper text-ink font-mono text-xs uppercase tracking-widest py-4.5 py-4 rounded-full hover:bg-white transition-colors focus-ring-dark">
+        Beli Sekarang via WhatsApp
+      </button>
+
+      <p class="mt-5 text-center text-[11px] text-paper/40 font-mono">Kamu akan diarahkan ke WhatsApp dengan pesan yang sudah terisi otomatis.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-ink text-paper/60 border-t border-paper/10">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+
+    <div class="font-display font-bold text-paper text-lg">
+      SLEEPGLOW<span class="font-mono text-[10px] align-top ml-1 opacity-60">STUDIO™</span>
+    </div>
+
+    <p class="font-mono text-[11px] uppercase tracking-widest text-center">© 2026 SleepGlow Studio — All nights reserved.</p>
+
+    <div class="flex items-center gap-5">
+      <a href="#" aria-label="Instagram" class="hover:text-paper transition-colors focus-ring-dark rounded">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="TikTok" class="hover:text-paper transition-colors focus-ring-dark rounded">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 4v10.5a3.5 3.5 0 11-3-3.5"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 4c0 2.5 2 4.5 4.5 4.5"/>
+        </svg>
+      </a>
+      <button onclick="chatAdmin()" aria-label="WhatsApp" class="hover:text-paper transition-colors focus-ring-dark rounded">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.5c0 4.7-4 8.5-9 8.5-1.5 0-3-.3-4.2-.9L3 20l1-4.3C3.3 14.5 3 13 3 11.5 3 6.8 7 3 12 3s9 3.8 9 8.5z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* =========================================================
+     GANTI nomor WhatsApp Admin di bawah ini.
+     Format: kode negara TANPA tanda + atau angka 0 di depan.
+     Contoh nomor 0812-3456-7890 menjadi 6281234567890
+  ========================================================= */
+  const WA_NUMBER = "6281234567890";
+
+  // ---------- Navbar background on scroll ----------
+  const navbar = document.getElementById('navbar');
+  const navWaBtn = document.getElementById('navWaBtn');
+  function handleNavScroll(){
+    if (window.scrollY > 40){
+      navbar.classList.add('bg-paper/90','text-ink','backdrop-blur-md','shadow-sm');
+      navbar.classList.remove('text-paper');
+      navWaBtn.classList.add('border-ink');
+    } else {
+      navbar.classList.remove('bg-paper/90','text-ink','backdrop-blur-md','shadow-sm');
+      navbar.classList.add('text-paper');
+      navWaBtn.classList.remove('border-ink');
+    }
+  }
+  window.addEventListener('scroll', handleNavScroll);
+  handleNavScroll();
+
+  // ---------- Mobile menu ----------
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+    document.getElementById('bar1').style.transform = menuOpen ? 'rotate(45deg) translateY(3px)' : '';
+    document.getElementById('bar2').style.transform = menuOpen ? 'rotate(-45deg) translateY(-3px)' : '';
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  // ---------- Scroll reveal ----------
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // ---------- Thermo panel animation ----------
+  const thermoPanel = document.getElementById('thermoPanel');
+  let thermoPlayed = false;
+  const thermoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !thermoPlayed){
+        thermoPlayed = true;
+        document.querySelectorAll('.thermo-fill').forEach(fill => {
+          fill.style.width = fill.dataset.target + '%';
+        });
+        document.querySelectorAll('.num').forEach(num => {
+          const end = parseInt(num.dataset.end, 10);
+          const duration = 1200;
+          const start = performance.now();
+          function step(now){
+            const progress = Math.min((now - start) / duration, 1);
+            num.textContent = Math.round(progress * end);
+            if (progress < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+        thermoObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  if (thermoPanel) thermoObserver.observe(thermoPanel);
+
+  // ---------- Product selection -> scroll to form ----------
+  function selectProduct(name){
+    const select = document.getElementById('produk');
+    select.value = name;
+    document.getElementById('pesan').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => document.getElementById('nama').focus(), 650);
+  }
+
+  // ---------- Quick chat from nav/footer ----------
+  function chatAdmin(){
+    const pesan = "Halo Admin SleepGlow Studio, saya ingin bertanya tentang produk sprei bambu organik.";
+    window.open(`https://api.whatsapp.com/send?phone=${WA_NUMBER}&text=${encodeURIComponent(pesan)}`, '_blank');
+  }
+
+  // ---------- Order form -> formatted WhatsApp message ----------
+  function kirimWhatsApp(event){
+    event.preventDefault();
+
+    const nama = document.getElementById('nama').value.trim();
+    const alamat = document.getElementById('alamat').value.trim();
+    const produkSelect = document.getElementById('produk');
+    const produk = produkSelect.value;
+    const errorBox = document.getElementById('formError');
+    const form = document.getElementById('orderForm');
+
+    if (!nama || !alamat || !produk){
+      errorBox.classList.remove('hidden');
+      form.classList.add('shake');
+      setTimeout(() => form.classList.remove('shake'), 500);
+      return;
+    }
+    errorBox.classList.add('hidden');
+
+    const pesan =
+      "Halo Admin SleepGlow Studio, saya ingin memesan sprei:\n" +
+      "- Nama: " + nama + "\n" +
+      "- Alamat: " + alamat + "\n" +
+      "- Produk: " + produk + "\n\n" +
+      "Mohon segera diproses ya, terima kasih!";
+
+    const url = "https://api.whatsapp.com/send?phone=" + WA_NUMBER + "&text=" + encodeURIComponent(pesan);
+    window.open(url, '_blank');
+  }
+</script>
+
+</body>
+</html>
